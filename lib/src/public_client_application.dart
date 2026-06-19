@@ -37,8 +37,11 @@ class PublicClientApplication {
     try {
       return PublicClientApplication._fromJsObject(
           interop.PublicClientApplication(configuration._jsObject));
-    } on interop.JsError catch (ex) {
-      throw convertJsError(ex);
+    } catch (ex) {
+      if (ex is JSObject && ex.isA<interop.JsError>()) {
+        throw convertJsError(ex as interop.JsError);
+      }
+      rethrow;
     }
   }
 
@@ -279,5 +282,40 @@ class PublicClientApplication {
       _jsObject
           .setNavigationClient(_allowNavigationClientInterop(navigationClient));
     });
+  }
+}
+
+/// Returns `true` if the current window is an MSAL popup interaction window.
+///
+/// MSAL opens a popup window to handle authentication. That popup loads your
+/// app again — calling this before `runApp` lets you skip Flutter
+/// initialization in the popup window, preventing rendering errors.
+///
+/// Usage in `main()`:
+/// ```dart
+/// void main() {
+///   if (isMsalPopupWindow()) return;
+///   runApp(MyApp());
+/// }
+/// ```
+bool isMsalPopupWindow() {
+  try {
+    final storage = globalContext['sessionStorage'] as JSObject?;
+    if (storage == null) return false;
+    final length = storage
+        .getProperty<JSNumber>('length'.toJS)
+        .toDartDouble
+        .toInt();
+    for (var i = 0; i < length; i++) {
+      final key = storage
+          .callMethod<JSString?>('key'.toJS, i.toJS)
+          ?.toDart;
+      if (key != null && key.contains('popup.interaction')) {
+        return true;
+      }
+    }
+    return false;
+  } catch (_) {
+    return false;
   }
 }
