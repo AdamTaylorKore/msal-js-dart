@@ -300,6 +300,10 @@ class PublicClientApplication {
 /// ```
 bool isMsalPopupWindow() {
   try {
+    // window.opener is only set in a child popup window, not the parent.
+    final opener = globalContext['opener'];
+    if (opener == null) return false;
+
     final storage = globalContext['sessionStorage'] as JSObject?;
     if (storage == null) return false;
     final length = storage
