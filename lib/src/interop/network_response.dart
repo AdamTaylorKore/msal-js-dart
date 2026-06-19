@@ -2,7 +2,7 @@ part of 'interop.dart';
 
 @JS()
 extension type NetworkResponse._(JSObject _) implements JSObject {
-  external NetworkResponse();
+  factory NetworkResponse() => NetworkResponse._(JSObject());
   external JSAny? get headers;
   external set headers(JSAny? headers);
 

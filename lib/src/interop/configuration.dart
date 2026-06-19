@@ -2,7 +2,7 @@ part of 'interop.dart';
 
 @JS()
 extension type Configuration._(JSObject _) implements JSObject {
-  external Configuration();
+  factory Configuration() => Configuration._(JSObject());
   external BrowserAuthOptions? get auth;
   external set auth(BrowserAuthOptions? auth);
 
@@ -15,7 +15,7 @@ extension type Configuration._(JSObject _) implements JSObject {
 
 @JS()
 extension type BrowserAuthOptions._(JSObject _) implements JSObject {
-  external BrowserAuthOptions();
+  factory BrowserAuthOptions() => BrowserAuthOptions._(JSObject());
   external String? get clientId;
   external set clientId(String? clientId);
 
@@ -49,7 +49,7 @@ extension type BrowserAuthOptions._(JSObject _) implements JSObject {
 
 @JS()
 extension type CacheOptions._(JSObject _) implements JSObject {
-  external CacheOptions();
+  factory CacheOptions() => CacheOptions._(JSObject());
   external String? get cacheLocation;
   external set cacheLocation(String? cacheLocation);
 
@@ -62,7 +62,7 @@ extension type CacheOptions._(JSObject _) implements JSObject {
 
 @JS()
 extension type BrowserSystemOptions._(JSObject _) implements JSObject {
-  external BrowserSystemOptions();
+  factory BrowserSystemOptions() => BrowserSystemOptions._(JSObject());
   external LoggerOptions? get loggerOptions;
   external set loggerOptions(LoggerOptions? loggerOptions);
 
@@ -101,7 +101,7 @@ extension type BrowserSystemOptions._(JSObject _) implements JSObject {
 
 @JS()
 extension type LoggerOptions._(JSObject _) implements JSObject {
-  external LoggerOptions();
+  factory LoggerOptions() => LoggerOptions._(JSObject());
   external JSFunction? get loggerCallback;
   external set loggerCallback(JSFunction? loggerCallback);
 

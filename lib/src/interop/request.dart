@@ -8,14 +8,14 @@ typedef RedirectNavigateCallback = bool? Function(String url);
 
 @JS()
 extension type SsoSilentRequest._(JSObject _) implements JSObject {
-  external SsoSilentRequest();
+  factory SsoSilentRequest() => SsoSilentRequest._(JSObject());
   external JSArray? get scopes;
   external set scopes(JSArray? scopes);
 }
 
 @JS()
 extension type EndSessionRequest._(JSObject _) implements JSObject {
-  external EndSessionRequest();
+  factory EndSessionRequest() => EndSessionRequest._(JSObject());
   external String? get authority;
   external set authority(String? authority);
 
@@ -25,7 +25,7 @@ extension type EndSessionRequest._(JSObject _) implements JSObject {
 
 @JS()
 extension type EndSessionPopupRequest._(JSObject _) implements JSObject {
-  external EndSessionPopupRequest();
+  factory EndSessionPopupRequest() => EndSessionPopupRequest._(JSObject());
   external String? get authority;
   external set authority(String? authority);
 
@@ -35,7 +35,7 @@ extension type EndSessionPopupRequest._(JSObject _) implements JSObject {
 
 @JS()
 extension type SilentRequest._(JSObject _) implements JSObject {
-  external SilentRequest();
+  factory SilentRequest() => SilentRequest._(JSObject());
   external String? get redirectUri;
   external set redirectUri(String? redirectUri);
 
@@ -57,7 +57,7 @@ extension type SilentRequest._(JSObject _) implements JSObject {
 
 @JS()
 extension type RedirectRequest._(JSObject _) implements JSObject {
-  external RedirectRequest();
+  factory RedirectRequest() => RedirectRequest._(JSObject());
   external JSArray? get scopes;
   external set scopes(JSArray? scopes);
 
@@ -70,14 +70,14 @@ extension type RedirectRequest._(JSObject _) implements JSObject {
 
 @JS()
 extension type PopupRequest._(JSObject _) implements JSObject {
-  external PopupRequest();
+  factory PopupRequest() => PopupRequest._(JSObject());
   external JSArray? get scopes;
   external set scopes(JSArray? scopes);
 }
 
 @JS()
 extension type CommonSilentFlowRequest._(JSObject _) implements JSObject {
-  external CommonSilentFlowRequest();
+  factory CommonSilentFlowRequest() => CommonSilentFlowRequest._(JSObject());
   external JSAny? get tokenQueryParameters;
   external set tokenQueryParameters(JSAny? tokenQueryParameters);
 
@@ -104,7 +104,7 @@ extension type CommonSilentFlowRequest._(JSObject _) implements JSObject {
 
 @JS()
 extension type CommonAuthorizationUrlRequest._(JSObject _) implements JSObject {
-  external CommonAuthorizationUrlRequest();
+  factory CommonAuthorizationUrlRequest() => CommonAuthorizationUrlRequest._(JSObject());
   external String? get redirectUri;
   external set redirectUri(String? redirectUri);
 
@@ -164,7 +164,7 @@ extension type CommonAuthorizationUrlRequest._(JSObject _) implements JSObject {
 
 @JS()
 extension type CommonEndSessionRequest._(JSObject _) implements JSObject {
-  external CommonEndSessionRequest();
+  factory CommonEndSessionRequest() => CommonEndSessionRequest._(JSObject());
   external String? get correlationId;
   external set correlationId(String? correlationId);
 
