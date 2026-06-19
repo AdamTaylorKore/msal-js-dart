@@ -1,13 +1,10 @@
-@JS()
-library promise_interop;
+import 'dart:js_interop';
 
-import 'package:js/js.dart';
-
-typedef PromiseExecutorFunc = void Function(dynamic value);
+typedef PromiseExecutorFunc = void Function(JSAny? value);
 typedef PromiseExecutor = void Function(
-    PromiseExecutorFunc resolve, PromiseExecutorFunc reject);
+    JSFunction resolve, JSFunction reject);
 
 @JS('Promise')
-class Promise {
-  external Promise(PromiseExecutor executor);
+extension type Promise._(JSObject _) implements JSObject {
+  external Promise(JSFunction executor);
 }

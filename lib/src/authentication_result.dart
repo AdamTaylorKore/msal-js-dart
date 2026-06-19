@@ -24,7 +24,7 @@ class AuthenticationResult implements EventPayload {
 
   /// MSAL-relevant ID token claims.
   Map<String, dynamic> get idTokenClaims =>
-      jsDecodeMap<dynamic>(_jsObject.idTokenClaims)!;
+      jsDecodeMap<dynamic>(_jsObject.idTokenClaims?.dartify())!;
 
   /// Access token received as part of the response.
   String get accessToken => _jsObject.accessToken;
@@ -33,13 +33,23 @@ class AuthenticationResult implements EventPayload {
   bool get fromCache => _jsObject.fromCache;
 
   /// Date representing relative expiration of access token.
-  DateTime? get expiresOn => _jsObject.expiresOn;
+  DateTime? get expiresOn {
+    final d = _jsObject.expiresOn;
+    if (d == null) return null;
+    final ms = (d as JSObject).callMethod<JSNumber>('getTime'.toJS).toDartDouble;
+    return DateTime.fromMillisecondsSinceEpoch(ms.toInt(), isUtc: true);
+  }
 
   String get tokenType => _jsObject.tokenType;
 
   /// Date representing extended relative expiration of access token in
   /// case of server outage.
-  DateTime? get extExpiresOn => _jsObject.extExpiresOn;
+  DateTime? get extExpiresOn {
+    final d = _jsObject.extExpiresOn;
+    if (d == null) return null;
+    final ms = (d as JSObject).callMethod<JSNumber>('getTime'.toJS).toDartDouble;
+    return DateTime.fromMillisecondsSinceEpoch(ms.toInt(), isUtc: true);
+  }
 
   /// Value passed in by user in request.
   String? get state => _jsObject.state;
@@ -55,7 +65,7 @@ class AuthenticationResult implements EventPayload {
 
   final interop.AuthenticationResult _jsObject;
 
-  AuthenticationResult._fromEvent(dynamic payload)
+  AuthenticationResult._fromEvent(JSAny? payload)
       : _jsObject = payload as interop.AuthenticationResult;
 
   AuthenticationResult._fromJsObject(this._jsObject);

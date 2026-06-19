@@ -8,9 +8,9 @@
 library msal_js;
 
 import 'dart:async';
+import 'dart:js_interop';
 
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
+import 'dart:js_interop_unsafe';
 
 import 'src/interop/interop.dart' as interop;
 import 'src/js_proxies/js_proxies.dart';

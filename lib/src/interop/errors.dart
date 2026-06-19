@@ -6,7 +6,7 @@ part of 'interop.dart';
 // The `name` field however is set to the type name, so we need to just use that.
 
 @JS('AuthError')
-class AuthError extends JsError {
+extension type AuthError._(JSObject _) implements JsError {
   external String get errorCode;
   external String get errorMessage;
   external String get subError;

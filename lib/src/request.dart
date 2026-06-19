@@ -6,7 +6,7 @@ class SsoSilentRequest extends CommonAuthorizationUrlRequest
 
   /// List of scopes the application is requesting access to
   /// (optional for ssoSilent calls).
-  set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
+  set scopes(List<String>? value) => _jsObject.scopes = value == null ? null : jsEncodeList(value);
 
   @override
   final interop.SsoSilentRequest _jsObject;
@@ -24,14 +24,11 @@ class EndSessionRequest extends CommonEndSessionRequest
   /// Authority to send logout request to.
   set authority(String? value) => _jsObject.authority = value;
 
-  interop.RedirectNavigateCallback? get onRedirectNavigate =>
-      _jsObject.onRedirectNavigate;
-
   /// Callback that will be passed the url that MSAL will navigate to.
   ///
   /// Returning false in the callback will stop navigation.
   set onRedirectNavigate(interop.RedirectNavigateCallback? value) =>
-      _jsObject.onRedirectNavigate = value == null ? null : allowInterop(value);
+      _jsObject.onRedirectNavigate = value?.toJS;
 
   @override
   final interop.EndSessionRequest _jsObject;
@@ -75,14 +72,14 @@ class SilentRequest extends CommonSilentFlowRequest implements EventPayload {
   set redirectUri(String? value) => _jsObject.redirectUri = value;
 
   Map<String, String>? get extraQueryParameters =>
-      jsDecodeMap<String>(_jsObject.extraQueryParameters);
+      jsDecodeMap<String>(_jsObject.extraQueryParameters?.dartify());
 
   /// String to string map of custom query parameters added to the
   /// `/authorize` call.
   ///
   /// Only used when renewing the refresh token.
   set extraQueryParameters(Map<String, String>? value) =>
-      _jsObject.extraQueryParameters = jsEncode(value);
+      _jsObject.extraQueryParameters = jsEncodeMap(value);
 
   String? get authority => _jsObject.authority;
 
@@ -121,7 +118,7 @@ class RedirectRequest extends CommonAuthorizationUrlRequest
   List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
 
   /// List of scopes the application is requesting access to.
-  set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
+  set scopes(List<String>? value) => _jsObject.scopes = value == null ? null : jsEncodeList(value);
 
   String? get redirectStartPage => _jsObject.redirectStartPage;
 
@@ -134,14 +131,11 @@ class RedirectRequest extends CommonAuthorizationUrlRequest
   /// parameter will be ignored.
   set redirectStartPage(String? value) => _jsObject.redirectStartPage = value;
 
-  interop.RedirectNavigateCallback? get onRedirectNavigate =>
-      _jsObject.onRedirectNavigate;
-
   /// Callback that will be passed the url that MSAL will navigate to.
   ///
   /// Returning `false` in the callback will stop navigation.
   set onRedirectNavigate(interop.RedirectNavigateCallback? value) =>
-      _jsObject.onRedirectNavigate = value == null ? null : allowInterop(value);
+      _jsObject.onRedirectNavigate = value?.toJS;
 
   @override
   final interop.RedirectRequest _jsObject;
@@ -157,7 +151,7 @@ class PopupRequest extends CommonAuthorizationUrlRequest
   List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
 
   /// List of scopes the application is requesting access to.
-  set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
+  set scopes(List<String>? value) => _jsObject.scopes = value == null ? null : jsEncodeList(value);
 
   @override
   final interop.PopupRequest _jsObject;
@@ -170,110 +164,126 @@ class PopupRequest extends CommonAuthorizationUrlRequest
 
 abstract class CommonSilentFlowRequest {
   Map<String, String>? get tokenQueryParameters =>
-      jsDecodeMap<String>(_jsObject.tokenQueryParameters);
+      jsDecodeMap<String>(_js.getProperty<JSAny?>('tokenQueryParameters'.toJS)?.dartify());
 
   /// String to string map of custom query parameters added to the
   /// `/token` call.
   set tokenQueryParameters(Map<String, String>? value) =>
-      _jsObject.tokenQueryParameters = jsEncode(value);
+      _js.setProperty('tokenQueryParameters'.toJS, jsEncodeMap(value));
 
   // BaseAuthRequest
 
-  List<String>? get scopes => jsDecodeList<String>(_jsObject.scopes);
+  List<String>? get scopes => jsDecodeList<String>(
+      _js.getProperty<JSAny?>('scopes'.toJS) as JSArray?);
 
   /// List of scopes the application is requesting access to.
-  set scopes(List<String>? value) => _jsObject.scopes = jsEncode(value);
+  set scopes(List<String>? value) =>
+      _js.setProperty('scopes'.toJS, jsEncodeList(value));
 
-  String? get authenticationScheme => _jsObject.authenticationScheme;
+  String? get authenticationScheme =>
+      (_js.getProperty<JSAny?>('authenticationScheme'.toJS) as JSString?)?.toDart;
 
   /// The type of token retrieved.
   ///
   /// Defaults to "Bearer". Can also be type "pop".
   set authenticationScheme(String? value) =>
-      _jsObject.authenticationScheme = value;
+      _js.setProperty('authenticationScheme'.toJS, value?.toJS);
 
-  String? get claims => _jsObject.claims;
+  String? get claims =>
+      (_js.getProperty<JSAny?>('claims'.toJS) as JSString?)?.toDart;
 
   /// A stringified claims request which will be added to all `/authorize`
   /// and `/token` calls.
-  set claims(String? value) => _jsObject.claims = value;
+  set claims(String? value) => _js.setProperty('claims'.toJS, value?.toJS);
 
-  String? get shrClaims => _jsObject.shrClaims;
+  String? get shrClaims =>
+      (_js.getProperty<JSAny?>('shrClaims'.toJS) as JSString?)?.toDart;
 
   /// A stringified claims object which will be added to a Signed HTTP Request.
-  set shrClaims(String? value) => _jsObject.shrClaims = value;
+  set shrClaims(String? value) => _js.setProperty('shrClaims'.toJS, value?.toJS);
 
-  String? get resourceRequestMethod => _jsObject.resourceRequestMethod;
+  String? get resourceRequestMethod =>
+      (_js.getProperty<JSAny?>('resourceRequestMethod'.toJS) as JSString?)?.toDart;
 
   /// HTTP Request type used to request data from the resource
   /// (i.e. "GET", "POST", etc.).
   ///
   /// Used for proof-of-possession flows.
   set resourceRequestMethod(String? value) =>
-      _jsObject.resourceRequestMethod = value;
+      _js.setProperty('resourceRequestMethod'.toJS, value?.toJS);
 
-  String? get resourceRequestUri => _jsObject.resourceRequestUri;
+  String? get resourceRequestUri =>
+      (_js.getProperty<JSAny?>('resourceRequestUri'.toJS) as JSString?)?.toDart;
 
   /// URI that token will be used for.
   ///
   /// Used for proof-of-possession flows.
-  set resourceRequestUri(String? value) => _jsObject.resourceRequestUri = value;
+  set resourceRequestUri(String? value) =>
+      _js.setProperty('resourceRequestUri'.toJS, value?.toJS);
 
-  interop.CommonSilentFlowRequest get _jsObject;
+  JSObject get _jsObject;
+  JSObject get _js => _jsObject;
 }
 
 abstract class CommonAuthorizationUrlRequest {
-  String? get redirectUri => _jsObject.redirectUri;
+  String? get redirectUri =>
+      (_js.getProperty<JSAny?>('redirectUri'.toJS) as JSString?)?.toDart;
 
   /// The redirect URI where authentication responses can be received by
   /// your application.
   ///
   /// It must exactly match one of the redirect URIs registered in the
   /// Azure portal.
-  set redirectUri(String? value) => _jsObject.redirectUri = value;
+  set redirectUri(String? value) =>
+      _js.setProperty('redirectUri'.toJS, value?.toJS);
 
-  AccountInfo? get account => _jsObject.account == null
-      ? null
-      : AccountInfo._fromJsObject(_jsObject.account!);
+  AccountInfo? get account {
+    final v = _js.getProperty<JSAny?>('account'.toJS);
+    return v == null ? null : AccountInfo._fromJsObject(v as interop.AccountInfo);
+  }
 
   /// [AccountInfo] obtained from a `getAccount` API.
   ///
   /// Will be used in certain scenarios to generate `login_hint` if both
   /// `loginHint` and `sid` params are not provided.
-  set account(AccountInfo? value) => _jsObject.account = value?._jsObject;
+  set account(AccountInfo? value) =>
+      _js.setProperty('account'.toJS, value?._jsObject);
 
-  String? get domainHint => _jsObject.domainHint;
+  String? get domainHint =>
+      (_js.getProperty<JSAny?>('domainHint'.toJS) as JSString?)?.toDart;
 
   /// Provides a hint about the tenant or domain that the user should
   /// use to sign in.
   ///
   /// The value of the domain hint is a registered domain for the tenant.
-  set domainHint(String? value) => _jsObject.domainHint = value;
+  set domainHint(String? value) =>
+      _js.setProperty('domainHint'.toJS, value?.toJS);
 
-  Map<String, String>? get extraQueryParameters =>
-      jsDecodeMap<String>(_jsObject.extraQueryParameters);
+  Map<String, String>? get extraQueryParameters => jsDecodeMap<String>(
+      _js.getProperty<JSAny?>('extraQueryParameters'.toJS)?.dartify());
 
   /// String to string map of custom query parameters added to the
   /// `/authorize` call.
   set extraQueryParameters(Map<String, String>? value) =>
-      _jsObject.extraQueryParameters = jsEncode(value);
+      _js.setProperty('extraQueryParameters'.toJS, jsEncodeMap(value));
 
-  Map<String, String>? get tokenQueryParameters =>
-      jsDecodeMap<String>(_jsObject.tokenQueryParameters);
+  Map<String, String>? get tokenQueryParameters => jsDecodeMap<String>(
+      _js.getProperty<JSAny?>('tokenQueryParameters'.toJS)?.dartify());
 
   /// String to string map of custom query parameters added to the
   /// `/token` call.
   set tokenQueryParameters(Map<String, String>? value) =>
-      _jsObject.tokenQueryParameters = jsEncode(value);
+      _js.setProperty('tokenQueryParameters'.toJS, jsEncodeMap(value));
 
-  List<String>? get extraScopesToConsent =>
-      jsDecodeList<String>(_jsObject.extraScopesToConsent);
+  List<String>? get extraScopesToConsent => jsDecodeList<String>(
+      _js.getProperty<JSAny?>('extraScopesToConsent'.toJS) as JSArray?);
 
   /// Scopes for a different resource when the user needs consent upfront.
   set extraScopesToConsent(List<String>? value) =>
-      _jsObject.extraScopesToConsent = jsEncode(value);
+      _js.setProperty('extraScopesToConsent'.toJS, jsEncodeList(value));
 
-  String? get loginHint => _jsObject.loginHint;
+  String? get loginHint =>
+      (_js.getProperty<JSAny?>('loginHint'.toJS) as JSString?)?.toDart;
 
   /// Can be used to pre-fill the username/email address field of the
   /// sign-in page for the user, if you know the username/email address
@@ -282,17 +292,20 @@ abstract class CommonAuthorizationUrlRequest {
   /// Often apps use this parameter during re-authentication, having already
   /// extracted the username from a previous sign-in using the
   /// `preferred_username` claim.
-  set loginHint(String? value) => _jsObject.loginHint = value;
+  set loginHint(String? value) =>
+      _js.setProperty('loginHint'.toJS, value?.toJS);
 
-  String? get nonce => _jsObject.nonce;
+  String? get nonce =>
+      (_js.getProperty<JSAny?>('nonce'.toJS) as JSString?)?.toDart;
 
   /// A value included in the request that is returned in the id token.
   ///
   /// A randomly generated unique value is typically used to mitigate
   /// replay attacks.
-  set nonce(String? value) => _jsObject.nonce = value;
+  set nonce(String? value) => _js.setProperty('nonce'.toJS, value?.toJS);
 
-  String? get prompt => _jsObject.prompt;
+  String? get prompt =>
+      (_js.getProperty<JSAny?>('prompt'.toJS) as JSString?)?.toDart;
 
   /// Indicates the type of user interaction that is required.
   ///
@@ -309,16 +322,18 @@ abstract class CommonAuthorizationUrlRequest {
   /// - `select_account`: will interrupt single sign-on providing account
   /// selection experience listing all the accounts in session or any
   /// remembered accounts or an option to choose to use a different account.
-  set prompt(String? value) => _jsObject.prompt = value;
+  set prompt(String? value) => _js.setProperty('prompt'.toJS, value?.toJS);
 
-  String? get sid => _jsObject.sid;
+  String? get sid =>
+      (_js.getProperty<JSAny?>('sid'.toJS) as JSString?)?.toDart;
 
   /// Session ID, unique identifier for the session.
   ///
   /// Available as an optional claim on ID tokens.
-  set sid(String? value) => _jsObject.sid = value;
+  set sid(String? value) => _js.setProperty('sid'.toJS, value?.toJS);
 
-  String? get state => _jsObject.state;
+  String? get state =>
+      (_js.getProperty<JSAny?>('state'.toJS) as JSString?)?.toDart;
 
   /// A value included in the request that is also returned in the
   /// token response.
@@ -327,11 +342,12 @@ abstract class CommonAuthorizationUrlRequest {
   /// site request forgery attacks. The state is also used to encode
   /// information about the user's state in the app before the authentication
   /// request occurred.
-  set state(String? value) => _jsObject.state = value;
+  set state(String? value) => _js.setProperty('state'.toJS, value?.toJS);
 
   // BaseAuthRequest
 
-  String? get authority => _jsObject.authority;
+  String? get authority =>
+      (_js.getProperty<JSAny?>('authority'.toJS) as JSString?)?.toDart;
 
   /// URL of the authority, the security token service (STS) from which
   /// MSAL will acquire tokens.
@@ -341,78 +357,96 @@ abstract class CommonAuthorizationUrlRequest {
   /// authority endpoints multiple times.
   ///
   /// Defaults to https://login.microsoftonline.com/common.
-  set authority(String? value) => _jsObject.authority = value;
+  set authority(String? value) =>
+      _js.setProperty('authority'.toJS, value?.toJS);
 
-  String? get correlationId => _jsObject.correlationId;
+  String? get correlationId =>
+      (_js.getProperty<JSAny?>('correlationId'.toJS) as JSString?)?.toDart;
 
   /// Unique GUID set per request to trace a request end-to-end for
   /// telemetry purposes.
-  set correlationId(String? value) => _jsObject.correlationId = value;
+  set correlationId(String? value) =>
+      _js.setProperty('correlationId'.toJS, value?.toJS);
 
-  String? get authenticationScheme => _jsObject.authenticationScheme;
+  String? get authenticationScheme =>
+      (_js.getProperty<JSAny?>('authenticationScheme'.toJS) as JSString?)?.toDart;
 
   /// The type of token retrieved.
   ///
   /// Defaults to "Bearer". Can also be type "pop".
   set authenticationScheme(String? value) =>
-      _jsObject.authenticationScheme = value;
+      _js.setProperty('authenticationScheme'.toJS, value?.toJS);
 
-  String? get claims => _jsObject.claims;
+  String? get claims =>
+      (_js.getProperty<JSAny?>('claims'.toJS) as JSString?)?.toDart;
 
   /// A stringified claims request which will be added to all `/authorize`
   /// and `/token` calls.
-  set claims(String? value) => _jsObject.claims = value;
+  set claims(String? value) => _js.setProperty('claims'.toJS, value?.toJS);
 
-  String? get shrClaims => _jsObject.shrClaims;
+  String? get shrClaims =>
+      (_js.getProperty<JSAny?>('shrClaims'.toJS) as JSString?)?.toDart;
 
   /// A stringified claims object which will be added to a Signed HTTP Request.
-  set shrClaims(String? value) => _jsObject.shrClaims = value;
+  set shrClaims(String? value) => _js.setProperty('shrClaims'.toJS, value?.toJS);
 
-  String? get resourceRequestMethod => _jsObject.resourceRequestMethod;
+  String? get resourceRequestMethod =>
+      (_js.getProperty<JSAny?>('resourceRequestMethod'.toJS) as JSString?)?.toDart;
 
   /// HTTP Request type used to request data from the resource
   /// (i.e. "GET", "POST", etc.).
   ///
   /// Used for proof-of-possession flows.
   set resourceRequestMethod(String? value) =>
-      _jsObject.resourceRequestMethod = value;
+      _js.setProperty('resourceRequestMethod'.toJS, value?.toJS);
 
-  String? get resourceRequestUri => _jsObject.resourceRequestUri;
+  String? get resourceRequestUri =>
+      (_js.getProperty<JSAny?>('resourceRequestUri'.toJS) as JSString?)?.toDart;
 
   /// URI that token will be used for.
   ///
   /// Used for proof-of-possession flows.
-  set resourceRequestUri(String? value) => _jsObject.resourceRequestUri = value;
+  set resourceRequestUri(String? value) =>
+      _js.setProperty('resourceRequestUri'.toJS, value?.toJS);
 
-  interop.CommonAuthorizationUrlRequest get _jsObject;
+  JSObject get _jsObject;
+  JSObject get _js => _jsObject;
 }
 
 abstract class CommonEndSessionRequest {
-  String? get correlationId => _jsObject.correlationId;
+  String? get correlationId =>
+      (_js.getProperty<JSAny?>('correlationId'.toJS) as JSString?)?.toDart;
 
   /// Unique GUID set per request to trace a request end-to-end for
   /// telemetry purposes.
-  set correlationId(String? value) => _jsObject.correlationId = value;
+  set correlationId(String? value) =>
+      _js.setProperty('correlationId'.toJS, value?.toJS);
 
-  AccountInfo? get account => _jsObject.account == null
-      ? null
-      : AccountInfo._fromJsObject(_jsObject.account!);
+  AccountInfo? get account {
+    final v = _js.getProperty<JSAny?>('account'.toJS);
+    return v == null ? null : AccountInfo._fromJsObject(v as interop.AccountInfo);
+  }
 
   /// Account object that will be logged out of.
   ///
   /// All tokens tied to this account will be cleared.
-  set account(AccountInfo? value) => _jsObject.account = value?._jsObject;
+  set account(AccountInfo? value) =>
+      _js.setProperty('account'.toJS, value?._jsObject);
 
-  String? get postLogoutRedirectUri => _jsObject.postLogoutRedirectUri;
+  String? get postLogoutRedirectUri =>
+      (_js.getProperty<JSAny?>('postLogoutRedirectUri'.toJS) as JSString?)?.toDart;
 
   /// URI to navigate to after logout page.
   set postLogoutRedirectUri(String? value) =>
-      _jsObject.postLogoutRedirectUri = value;
+      _js.setProperty('postLogoutRedirectUri'.toJS, value?.toJS);
 
-  String? get idTokenHint => _jsObject.idTokenHint;
+  String? get idTokenHint =>
+      (_js.getProperty<JSAny?>('idTokenHint'.toJS) as JSString?)?.toDart;
 
   /// ID Token used by B2C to validate logout if required by the policy.
-  set idTokenHint(String? value) => _jsObject.idTokenHint = value;
+  set idTokenHint(String? value) =>
+      _js.setProperty('idTokenHint'.toJS, value?.toJS);
 
-  interop.CommonEndSessionRequest get _jsObject;
+  JSObject get _jsObject;
+  JSObject get _js => _jsObject;
 }

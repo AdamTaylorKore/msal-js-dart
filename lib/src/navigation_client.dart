@@ -13,17 +13,17 @@ abstract class INavigationClient {
 }
 
 /// Jsify's the navigation [client] so MSAL can call its methods.
-dynamic _allowNavigationClientInterop(INavigationClient client) {
-  return jsify(<String, dynamic>{
+JSAny _allowNavigationClientInterop(INavigationClient client) {
+  return <String, Object>{
     'navigateInternal':
-        allowInterop((String url, interop.NavigationOptions options) {
+        ((String url, interop.NavigationOptions options) {
       return _futureToPromise(client.navigateInternal(
           url, NavigationOptions._fromJsObject(options)));
-    }),
+    }).toJS,
     'navigateExternal':
-        allowInterop((String url, interop.NavigationOptions options) {
+        ((String url, interop.NavigationOptions options) {
       return _futureToPromise(client.navigateExternal(
           url, NavigationOptions._fromJsObject(options)));
-    }),
-  });
+    }).toJS,
+  }.jsify()!;
 }

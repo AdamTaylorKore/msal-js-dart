@@ -6,12 +6,15 @@ typedef _FutureToPromiseValueHelper<T> = dynamic Function(T value);
 interop.Promise _futureToPromise<T>(Future<T> future,
     {_FutureToPromiseValueHelper<T>? resolveHelper,
     _FutureToPromiseValueHelper<dynamic>? rejectHelper}) {
-  return interop.Promise(allowInterop((resolve, reject) {
+  return interop.Promise(((JSFunction resolve, JSFunction reject) {
     future.then(
-        (value) => resolve(resolveHelper == null
-            ? jsEncode(value as dynamic)
-            : resolveHelper(value)),
-        onError: (error) => reject(
+        (value) => resolve.callAsFunction(
+            null,
+            resolveHelper == null
+                ? jsEncode(value as dynamic)
+                : resolveHelper(value)),
+        onError: (error) => reject.callAsFunction(
+            null,
             rejectHelper == null ? jsEncode(error) : rejectHelper(error)));
-  }));
+  }).toJS);
 }

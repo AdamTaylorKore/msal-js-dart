@@ -1,7 +1,7 @@
 @JS('msal')
 library interop;
 
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import 'js/error.dart';
 

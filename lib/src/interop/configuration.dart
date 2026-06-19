@@ -1,8 +1,8 @@
 part of 'interop.dart';
 
 @JS()
-@anonymous
-class Configuration {
+extension type Configuration._(JSObject _) implements JSObject {
+  external Configuration();
   external BrowserAuthOptions? get auth;
   external set auth(BrowserAuthOptions? auth);
 
@@ -14,16 +14,16 @@ class Configuration {
 }
 
 @JS()
-@anonymous
-class BrowserAuthOptions {
+extension type BrowserAuthOptions._(JSObject _) implements JSObject {
+  external BrowserAuthOptions();
   external String? get clientId;
   external set clientId(String? clientId);
 
   external String? get authority;
   external set authority(String? authority);
 
-  external List? get knownAuthorities;
-  external set knownAuthorities(List? knownAuthorities);
+  external JSArray? get knownAuthorities;
+  external set knownAuthorities(JSArray? knownAuthorities);
 
   external String? get cloudDiscoveryMetadata;
   external set cloudDiscoveryMetadata(String? cloudDiscoveryMetadata);
@@ -40,16 +40,16 @@ class BrowserAuthOptions {
   external bool? get navigateToLoginRequestUrl;
   external set navigateToLoginRequestUrl(bool? navigateToLoginRequestUrl);
 
-  external List? get clientCapabilities;
-  external set clientCapabilities(List? clientCapabilities);
+  external JSArray? get clientCapabilities;
+  external set clientCapabilities(JSArray? clientCapabilities);
 
   external String? get protocolMode;
   external set protocolMode(String? protocolMode);
 }
 
 @JS()
-@anonymous
-class CacheOptions {
+extension type CacheOptions._(JSObject _) implements JSObject {
+  external CacheOptions();
   external String? get cacheLocation;
   external set cacheLocation(String? cacheLocation);
 
@@ -61,16 +61,16 @@ class CacheOptions {
 }
 
 @JS()
-@anonymous
-class BrowserSystemOptions {
+extension type BrowserSystemOptions._(JSObject _) implements JSObject {
+  external BrowserSystemOptions();
   external LoggerOptions? get loggerOptions;
   external set loggerOptions(LoggerOptions? loggerOptions);
 
-  external dynamic get networkClient;
-  external set networkClient(dynamic networkClient);
+  external JSAny? get networkClient;
+  external set networkClient(JSAny? networkClient);
 
-  external dynamic get navigationClient;
-  external set navigationClient(dynamic navigationClient);
+  external JSAny? get navigationClient;
+  external set navigationClient(JSAny? navigationClient);
 
   external num? get windowHashTimeout;
   external set windowHashTimeout(num? windowHashTimeout);
@@ -100,10 +100,10 @@ class BrowserSystemOptions {
 }
 
 @JS()
-@anonymous
-class LoggerOptions {
-  external LoggerCallback? get loggerCallback;
-  external set loggerCallback(LoggerCallback? loggerCallback);
+extension type LoggerOptions._(JSObject _) implements JSObject {
+  external LoggerOptions();
+  external JSFunction? get loggerCallback;
+  external set loggerCallback(JSFunction? loggerCallback);
 
   external bool? get piiLoggingEnabled;
   external set piiLoggingEnabled(bool? piiLoggingEnabled);

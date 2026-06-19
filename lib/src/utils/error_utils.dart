@@ -13,9 +13,9 @@ T _callJsMethod<T>(T Function() function) {
 /// Converts and awaits the given MSAL JS [promise].
 ///
 /// Automatically converts MSAL errors to exceptions that are thrown from it.
-Future<T> _convertMsalPromise<T>(dynamic promise) async {
+Future<T> _convertMsalPromise<T>(JSAny? promise) async {
   try {
-    return await promiseToFuture<T>(promise);
+    return await (promise as JSPromise<JSAny?>).toDart as T;
   } on interop.JsError catch (ex) {
     throw convertJsError(ex);
   }

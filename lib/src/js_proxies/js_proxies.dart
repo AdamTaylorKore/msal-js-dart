@@ -1,35 +1,48 @@
 import 'dart:collection';
+import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
 
-import 'package:js/js_util.dart';
-
-import 'interop/array.dart' as interop;
 import 'interop/object.dart' as interop;
 import 'interop/reflect.dart' as interop;
 
 part 'js_array_list_proxy.dart';
 part 'js_object_map_proxy.dart';
 
-/// Decodes the given [value] as a typed Dart [List].
-List<E>? jsDecodeList<E>(dynamic value) {
+/// Decodes the given [value] as a typed Dart [List], proxying it through a [JsArrayListProxy].
+List<E>? jsDecodeList<E>(JSArray? value) {
   if (value == null) {
     return null;
   } else {
-    assert(value is interop.Array ||
-        (value is List && value is! JsArrayListProxy));
-
     return JsArrayListProxy<E>(value);
   }
 }
 
-/// Decodes the given [value] as a typed Dart [Map].
+/// Decodes the given [value] into a typed Dart [Map].
+///
+/// [value] should be a plain Dart [Map] produced by `JSAny.dartify()`.
 Map<String, V>? jsDecodeMap<V>(dynamic value) {
   if (value == null) {
     return null;
   } else {
-    assert(value is interop.Object);
-
-    return JsObjectMapProxy<V>(value);
+    if (value is Map) {
+      return value.cast<String, V>();
+    }
+    return JsObjectMapProxy<V>(value as JSObject);
   }
+}
+
+/// Encodes a Dart [List] into a [JSArray].
+JSArray? jsEncodeList(List? value) {
+  if (value == null) return null;
+  if (value is JsArrayListProxy) return value._jsArray;
+  return value.jsify() as JSArray;
+}
+
+/// Encodes a Dart [Map] into a [JSAny] (plain JS object).
+JSAny? jsEncodeMap(Map? value) {
+  if (value == null) return null;
+  if (value is JsObjectMapProxy) return value._jsObject as JSAny;
+  return value.jsify();
 }
 
 /// Encodes the given [value] into a JS friendly value.
@@ -39,14 +52,11 @@ Map<String, V>? jsDecodeMap<V>(dynamic value) {
 dynamic jsEncode(dynamic value) {
   if (value != null) {
     if (value is JsArrayListProxy) {
-      // Get proxied JS Array
       value = value._jsArray;
     } else if (value is JsObjectMapProxy) {
-      // Get proxied JS Object
       value = value._jsObject;
     } else if (value is Map || value is Iterable) {
-      // JSify Dart Maps and Iterables
-      value = jsify(value);
+      value = value.jsify();
     }
   }
 
@@ -55,15 +65,12 @@ dynamic jsEncode(dynamic value) {
 
 /// Decodes the given [value] into a native Dart type.
 ///
-/// Accepts JS `Array`s and JS `Object`s. Other values will be returned unchanged.
+/// Accepts JS objects and arrays. Other values will be returned unchanged.
 dynamic jsDecode(dynamic value) {
   if (value != null) {
-    if (value is interop.Array ||
-        (value is List && value is! JsArrayListProxy)) {
-      // Proxy JS Array
+    if (value is JSArray) {
       value = JsArrayListProxy(value);
-    } else if (value is interop.Object) {
-      // Proxy JS Object
+    } else if (value is JSObject) {
       value = JsObjectMapProxy(value);
     }
   }

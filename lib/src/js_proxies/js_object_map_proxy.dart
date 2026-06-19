@@ -6,23 +6,24 @@ part of 'js_proxies.dart';
 /// respectively and vice versa without copying the underlying JS value (e.g.
 /// modifying the "proxied" JS Array/Object will be reflected in JS and vice versa).
 class JsObjectMapProxy<V> with MapMixin<String, V> {
-  final dynamic _jsObject;
+  final JSObject _jsObject;
 
   JsObjectMapProxy(this._jsObject);
 
   @override
-  Iterable<String> get keys => interop.Object.keys(_jsObject).cast<String>();
+  Iterable<String> get keys =>
+      interop.Object.keys(_jsObject).toDart.cast<String>();
 
   @override
   V? operator [](Object? key) {
     ArgumentError.checkNotNull(key, 'key');
 
-    return jsDecode(getProperty(_jsObject, key!));
+    return jsDecode(_jsObject.getProperty<JSAny?>((key! as String).toJS));
   }
 
   @override
   void operator []=(String key, V value) {
-    setProperty(_jsObject, key, jsEncode(value));
+    _jsObject.setProperty(key.toJS, jsEncode(value));
   }
 
   @override
@@ -35,7 +36,7 @@ class JsObjectMapProxy<V> with MapMixin<String, V> {
   @override
   V? remove(Object? key) {
     final value = this[key];
-    interop.Reflect.deleteProperty(_jsObject, key);
+    interop.Reflect.deleteProperty(_jsObject, key as String);
 
     return value;
   }

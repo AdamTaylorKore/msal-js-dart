@@ -1,7 +1,4 @@
-@JS()
-library array;
-
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 @JS('Array')
-class Array {}
+extension type Array._(JSObject _) implements JSObject {}

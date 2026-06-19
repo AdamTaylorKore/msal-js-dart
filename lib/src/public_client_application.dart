@@ -85,9 +85,9 @@ class PublicClientApplication {
   /// Returns a callback ID that can be later used to unregister the function.
   String? addEventCallback(EventCallbackFunction callback) {
     return _callJsMethod(() {
-      return _jsObject.addEventCallback(allowInterop((message) {
+      return _jsObject.addEventCallback(((interop.EventMessage message) {
         callback(EventMessage._fromJsObject(message));
-      }));
+      }).toJS);
     });
   }
 
@@ -140,6 +140,7 @@ class PublicClientApplication {
   List<AccountInfo> getAllAccounts() {
     return _callJsMethod(() => _jsObject
         .getAllAccounts()
+        .toDart
         .cast<interop.AccountInfo>()
         .map((jsAccount) => AccountInfo._fromJsObject(jsAccount))
         .toList());
