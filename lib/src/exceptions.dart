@@ -1,22 +1,32 @@
 import 'interop/interop.dart' as interop;
 
+const _authErrorNames = {
+  'BrowserConfigurationAuthError',
+  'BrowserAuthError',
+  'ClientConfigurationError',
+  'InteractionRequiredAuthError',
+  'ServerError',
+  'ClientAuthError',
+  'AuthError',
+};
+
 MsalJsException convertJsError(interop.JsError jsError) {
-  // Determine type
-  if (jsError is interop.AuthError) {
+  final authError = jsError as interop.AuthError;
+  if (_authErrorNames.contains(jsError.name)) {
     if (jsError.name == 'BrowserConfigurationAuthError') {
-      return BrowserConfigurationAuthException._fromJsObject(jsError);
+      return BrowserConfigurationAuthException._fromJsObject(authError);
     } else if (jsError.name == 'BrowserAuthError') {
-      return BrowserAuthException._fromJsObject(jsError);
+      return BrowserAuthException._fromJsObject(authError);
     } else if (jsError.name == 'ClientConfigurationError') {
-      return ClientConfigurationException._fromJsObject(jsError);
+      return ClientConfigurationException._fromJsObject(authError);
     } else if (jsError.name == 'InteractionRequiredAuthError') {
-      return InteractionRequiredAuthException._fromJsObject(jsError);
+      return InteractionRequiredAuthException._fromJsObject(authError);
     } else if (jsError.name == 'ServerError') {
-      return ServerException._fromJsObject(jsError);
+      return ServerException._fromJsObject(authError);
     } else if (jsError.name == 'ClientAuthError') {
-      return ClientAuthException._fromJsObject(jsError);
+      return ClientAuthException._fromJsObject(authError);
     } else {
-      return AuthException._fromJsObject(jsError);
+      return AuthException._fromJsObject(authError);
     }
   } else {
     return MsalJsException._fromJsObject(jsError);

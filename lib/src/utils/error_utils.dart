@@ -5,8 +5,11 @@ part of '../../msal_js.dart';
 T _callJsMethod<T>(T Function() function) {
   try {
     return function();
-  } on interop.JsError catch (ex) {
-    throw convertJsError(ex);
+  } catch (ex) {
+    if (ex is JSObject && ex.isA<interop.JsError>()) {
+      throw convertJsError(ex as interop.JsError);
+    }
+    rethrow;
   }
 }
 
@@ -15,8 +18,12 @@ T _callJsMethod<T>(T Function() function) {
 /// Automatically converts MSAL errors to exceptions that are thrown from it.
 Future<T> _convertMsalPromise<T>(JSAny? promise) async {
   try {
-    return await (promise as JSPromise<JSAny?>).toDart as T;
-  } on interop.JsError catch (ex) {
-    throw convertJsError(ex);
+    final result = await (promise as JSPromise<JSAny?>).toDart;
+    return result as T;
+  } catch (ex) {
+    if (ex is JSObject && ex.isA<interop.JsError>()) {
+      throw convertJsError(ex as interop.JsError);
+    }
+    rethrow;
   }
 }
