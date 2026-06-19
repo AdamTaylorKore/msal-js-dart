@@ -18,27 +18,28 @@ abstract class INetworkModule {
 /// Jsify's the network [module] so MSAL can call its methods.
 JSAny _allowNetworkModuleInterop(INetworkModule module) {
   return <String, Object>{
-    'sendGetRequestAsync': ((String url,
-            [interop.NetworkRequestOptions? options,
-            num? cancellationToken]) {
+    'sendGetRequestAsync': ((JSAny? url,
+            [JSAny? options,
+            JSAny? cancellationToken]) {
       return _futureToPromise(
           module.sendGetRequestAsync(
-              url,
+              (url as JSString).toDart,
               options == null
                   ? null
-                  : NetworkRequestOptions._fromJsOjbect(options),
-              cancellationToken),
+                  : NetworkRequestOptions._fromJsOjbect(
+                      options as interop.NetworkRequestOptions),
+              (cancellationToken as JSNumber?)?.toDartDouble),
           resolveHelper: (NetworkResponse value) => value._jsObject);
     }).toJS,
-    'sendPostRequestAsync': ((String url,
-            [interop.NetworkRequestOptions? options,
-            num? cancellationToken]) {
+    'sendPostRequestAsync': ((JSAny? url,
+            [JSAny? options]) {
       return _futureToPromise(
           module.sendPostRequestAsync(
-              url,
+              (url as JSString).toDart,
               options == null
                   ? null
-                  : NetworkRequestOptions._fromJsOjbect(options)),
+                  : NetworkRequestOptions._fromJsOjbect(
+                      options as interop.NetworkRequestOptions)),
           resolveHelper: (NetworkResponse value) => value._jsObject);
     }).toJS,
   }.jsify()!;

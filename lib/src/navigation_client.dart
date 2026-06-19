@@ -16,14 +16,16 @@ abstract class INavigationClient {
 JSAny _allowNavigationClientInterop(INavigationClient client) {
   return <String, Object>{
     'navigateInternal':
-        ((String url, interop.NavigationOptions options) {
+        ((JSAny? url, JSAny? options) {
       return _futureToPromise(client.navigateInternal(
-          url, NavigationOptions._fromJsObject(options)));
+          (url as JSString).toDart,
+          NavigationOptions._fromJsObject(options as interop.NavigationOptions)));
     }).toJS,
     'navigateExternal':
-        ((String url, interop.NavigationOptions options) {
+        ((JSAny? url, JSAny? options) {
       return _futureToPromise(client.navigateExternal(
-          url, NavigationOptions._fromJsObject(options)));
+          (url as JSString).toDart,
+          NavigationOptions._fromJsObject(options as interop.NavigationOptions)));
     }).toJS,
   }.jsify()!;
 }

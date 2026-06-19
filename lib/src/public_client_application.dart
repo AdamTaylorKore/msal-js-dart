@@ -85,8 +85,8 @@ class PublicClientApplication {
   /// Returns a callback ID that can be later used to unregister the function.
   String? addEventCallback(EventCallbackFunction callback) {
     return _callJsMethod(() {
-      return _jsObject.addEventCallback(((interop.EventMessage message) {
-        callback(EventMessage._fromJsObject(message));
+      return _jsObject.addEventCallback(((JSAny? message) {
+        callback(EventMessage._fromJsObject(message as interop.EventMessage));
       }).toJS);
     });
   }

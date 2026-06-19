@@ -39,11 +39,13 @@ class LoggerOptions {
       _jsObject.loggerCallback = null;
     } else {
       // Wrap the callback to convert LogLevel
-      void jsCallback(int level, String message, bool containsPii) {
-        value(_getLogLevel(level), message, containsPii);
-      }
-
-      _jsObject.loggerCallback = jsCallback.toJS;
+      _jsObject.loggerCallback = ((JSAny? level, JSAny? message, JSAny? containsPii) {
+        value(
+          _getLogLevel((level as JSNumber).toDartDouble.toInt()),
+          (message as JSString).toDart,
+          (containsPii as JSBoolean).toDart,
+        );
+      }).toJS;
     }
   }
 
